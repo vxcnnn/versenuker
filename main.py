@@ -3,6 +3,8 @@ import os
 import sys
 import subprocess
 
+os.system("title Arc V1 (made by vxcn 💖")
+
 def install_requirements_if_needed():
     """Check if requirements are installed, and install them if they're not."""
     try:
@@ -33,10 +35,13 @@ from discord.ext import commands
 import asyncio
 import logging
 import colorama
+import requests
 from colorama import Fore, Style, init
 
 # Initialize colorama
 init(autoreset=True)
+
+
 
 
 logging.getLogger('discord').setLevel(logging.CRITICAL)
@@ -61,78 +66,102 @@ async def async_input(prompt: str) -> str:
 @bot.event
 async def on_ready():
     # Display the bot's username and ID
-    print(f'Bot is ready. Logged in as {bot.user} (ID: {bot.user.id})')
+    print(Fore.RED + f'Bot is ready. Logged in as {bot.user} (ID: {bot.user.id})')
 
     time.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
 
     # ASCII art for "DSC NUKER"
     dsc_nuker_ascii = (
-        Fore.RED + "    ██████  ███████  ██████     ███    ██ ██    ██ ██   ██ ███████ ██████  \n" +
-        Fore.RED + "    ██   ██ ██      ██          ████   ██ ██    ██ ██  ██  ██      ██   ██ \n" +
-        Fore.RED + "    ██   ██ ███████ ██          ██ ██  ██ ██    ██ █████   █████   ██████  \n" +
-        Fore.RED + "    ██   ██      ██ ██          ██  ██ ██ ██    ██ ██  ██  ██      ██   ██ \n" +
-        Fore.LIGHTRED_EX + "    ██████  ███████  ██████     ██   ████  ██████  ██   ██ ███████ ██   ██ \n" +
-        Style.RESET_ALL
+        Fore.RED + " $$$$$$\\  $$$$$$$\\   $$$$$$\\        $$\\    $$\\   $$\\   \n" +
+        Fore.RED + "$$  __$$\\ $$  __$$\\ $$  __$$\\       $$ |   $$ |$$$$ |  \n" +
+        Fore.RED + "$$ /  $$ |$$ |  $$ |$$ /  \\__|      $$ |   $$ |\\_$$ |  \n" +
+        Fore.RED + "$$$$$$$$ |$$$$$$$  |$$ |            \\$$\\  $$  |  $$ |  \n" +
+        Fore.RED + "$$  __$$ |$$  __$$< $$ |             \\$$\\$$  /   $$ |  \n" +
+        Fore.RED + "$$ |  $$ |$$ |  $$ |$$ |  $$\\         \\$$$  /    $$ |  \n" +
+        Fore.RED + "$$ |  $$ |$$ |  $$ |\\$$$$$$  |         \\$  /   $$$$$$\\ \n" +
+        Fore.RED + "\\__|  \\__|\\__|  \\__| \\______/           \\_/    \\______| \n" +
+        Fore.RED + "                                                        \n" +
+        Fore.RED + "                                                        \n" +
+        Fore.RED + "                                                        \n"
     )
-    
+
     # Display ASCII art
     print(dsc_nuker_ascii)
     time.sleep(2)
 
     # Ask the user to choose between Discord ServerID or Chat Beta
     while True:
-        print(Fore.LIGHTRED_EX + "Select an option:")
-        print(Fore.LIGHTRED_EX + "1. ServerID nuke")
-        print(Fore.LIGHTRED_EX + "2. Use Message Nuke")
-        print(Fore.LIGHTRED_EX + "3. Commands")
+        print(Fore.RED + "Select an option:")
+        print(Fore.RED + "1. ServerID nuke")
+        print(Fore.RED + "2. Use Message Nuke")
+        print(Fore.RED + "3. Webhook Spammer")  # Moved Webhook Spammer to option 3
+        print(Fore.RED + "4. Commands")  # Moved Commands to option 4
         print(" ")
 
-        choice = await async_input(Fore.LIGHTRED_EX + "Input: ")
+        choice = await async_input(Fore.RED + "Input: ")
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if choice == '1':
-            server_id = await async_input(Fore.LIGHTRED_EX + "Please enter the Discord server ID you want to nuke: ")
+            server_id = await async_input(Fore.RED + "Please enter the Discord server ID you want to nuke: ")
             guild = bot.get_guild(int(server_id))
             if guild is None:
-                print(Fore.LIGHTRED_EX + "I cannot find a server with that ID (or the bot is not in it)")
+                print(Fore.RED + "I cannot find a server with that ID (or the bot is not in it)")
             else:
                 await perform_nuke(guild)
             os.system('cls' if os.name == 'nt' else 'clear')
-            print(f"Starting nuke on {server_id}!")  # Show the server ID, assuming the user enters it
+            print(f"Starting nuke on {server_id}!")
             time.sleep(2) 
-            os.system('cls' if os.name == 'nt' else 'clear')
+            os.system('cls' if os.name == 'nt' else'clear')
             print("Check the server!")
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
 
         elif choice == '2':
             os.system('cls' if os.name == 'nt' else 'clear')
-            print(Fore.LIGHTRED_EX + "Say !nuke in any channel")
+            print(Fore.RED + "Say !nuke in any channel")
 
         elif choice == '3':
-            # Keep the user in this section until they type 4 to go back
-            while True:
-                print(Fore.LIGHTRED_EX + "Commands:")
-                print(Fore.LIGHTRED_EX + "!nuke")
-                print(Fore.LIGHTRED_EX + "!kick")
-                print(" ")
-                print(" ")
-                print(Fore.YELLOW + "Type 4 to go back to the main menu.")
-                choice = await async_input(Fore.LIGHTRED_EX + "Input: ")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            webhook_url = await async_input(Fore.RED + "Please enter the Discord webhook URL: ")
+            message_content = await async_input(Fore.RED + "What message do you want to send? ")
+            message_count = int(await async_input(Fore.RED + "How many messages do you want to send? "))
+            delete_webhook = await async_input(Fore.RED + "Do you want to delete the webhook after sending messages? (yes/no) (has to be lowercase): ")
+	    
 
-                if choice == '4':
-                    # If they choose 4, break out of this loop and return to the main menu
+        for _ in range(message_count):
+            requests.post(webhook_url, json={"content": message_content})
+
+        print(Fore.RED + f"Sent {message_count} messages to the webhook.")
+
+        if delete_webhook.lower() == 'yes':
+            requests.delete(webhook_url)
+            print(Fore.RED + "Webhook has been deleted.")
+
+            time.sleep(4)
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif choice == '4':
+            while True:
+                print(Fore.RED + "Commands:")
+                print(Fore.RED + "!nuke")
+                print(Fore.RED + "!kick")
+                print(" ")
+                print(" ")
+                print(Fore.YELLOW + "Type 5 to go back to the main menu.")
+                choice = await async_input(Fore.RED + "Input: ")
+
+                if choice == '5':
                     os.system('cls' if os.name == 'nt' else 'clear')
                     break
                 else:
-                    print(Fore.LIGHTRED_EX + "Invalid input. Please type 4 to go back.")
+                    print(Fore.RED + "Invalid input. Please type 5 to go back.")
                     time.sleep(2)
                     os.system('cls' if os.name == 'nt' else 'clear')
 
         else:
-            print(Fore.LIGHTRED_EX + "Invalid choice.")
+            print(Fore.RED + "Invalid choice.")
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -211,20 +240,20 @@ async def kick(ctx):
             else:
                 await ctx.send(f'STUPID NIGG3R')
 
-        await asyncio.sleep(0.5)  # Add a delay between batches to avoid rate limits
+        await asyncio.sleep(0)  # Add a delay between batches to avoid rate limits
 
 
 # Load token from a file (create it if it doesn't exist)
 token_file = "token.txt"  # Name of the token file
 if not os.path.exists(token_file):
-    print(Fore.LIGHTRED_EX + "Made with love by vxcn 💖 (and chatgpt) ")
+    print(Fore.RED + "Made with love by vxcn 💖 (and chatgpt) ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
-    token = input(Fore.LIGHTRED_EX + "Please enter your bot token: ")
+    token = input(Fore.RED + "Please enter your bot token: ")
     with open(token_file, "w") as f:
         f.write(token)
 else:
