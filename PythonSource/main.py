@@ -60,11 +60,11 @@ async def on_ready():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     while True:
-        print(Fore.RED + "$$\    $$\  $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\  ")
+        print(Fore.RED + "$$\    $$\  $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\ ")
         print(Fore.RED + "\\$$\\  $$  |$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ ")
         print(Fore.RED + " \\$$\\$$  / $$$$$$$$ |$$ |  \\__|\\$$$$$$\\  $$$$$$$$ |")
         print(Fore.RED + "  \\$$$  /  $$   ____|$$ |       \\____$$\\ $$   ____|")
-        print(Fore.RED + "   \\$  /   \\$$$$$$$\\ $$ |      $$$$$$$  |\\$$$$$$$\\ ")
+        print(Fore.RED + "   \\$  /   \\$$$$$$$\\ $$ |      $$$$$$$  |\\$$$$$$$\\")
         print(Fore.RED + "    \\_/     \\_______|\\__|      \\_______/  \\_______|")
         print(Fore.RED + "                                                        ")
         print(Fore.RED + "                                                        ")
