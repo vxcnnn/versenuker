@@ -84,12 +84,12 @@ async def on_ready():
         print(Fore.MAGENTA + " 7. Gen server invite     8. Unban User")
         print(" ")
 
-        choice = await async_input(Fore.MAGENTA + "user@ArcV1/~  ")
+        choice = await async_input(Fore.MAGENTA + "user@verse/~  ")
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if choice == '1':
-            server_id = await async_input(Fore.MAGENTA + "user@ArcV1/ServerID~ ")
+            server_id = await async_input(Fore.MAGENTA + "user@verse/ServerID~ ")
             guild = bot.get_guild(int(server_id))
             if guild is None:
                 print(
