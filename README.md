@@ -11,3 +11,7 @@ once you install python (i think you need to restart your pc)
 
 
 As of May 2, 2025, im finally updating it (might not be changed)
+
+
+
+# "verse-raider.exe" is outdated, I recommend just running the python file by itself! (its in the pythonsource folder)
