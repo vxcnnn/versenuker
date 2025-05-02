@@ -409,7 +409,7 @@ async def members(ctx):
 
     await ctx.send(f'The total number of members in this server is: {total_members}')
 
-@bot.command(name='13')
+@bot.command(name='13') # gets the discord bot banned (just like spam report it after it says "im 11", not sure if it gets it banned though 🤷)
 async def command_13(ctx):
     await ctx.send('im 11 years old! @everyone')
 
