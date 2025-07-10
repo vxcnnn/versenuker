@@ -16,5 +16,3 @@ As of July 10, 2025, im finally updating it
 
 
 
-# "verse-raider.exe" is outdated
-I recommend just running the python file by itself! (its in the pythonsource folder)
